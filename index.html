@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery mobile Sample</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
+        <link rel="stylesheet" href="css/custom.css">
+        
+  		<script src="js/jquery-2.1.1.min.js"></script>
+  		<script src="js/main.js"></script>
+        <script src="js/jquery.mobile-1.4.4.min.js"></script>
+    </head>
+
+    <body>
+        <div data-role="page" id="page-1">
+            <div data-role="header">
+                <h1>通訊錄查詢</h1>
+            </div>
+
+            <div data-role="content">
+                <form>
+                   <div data-role="fieldcontain">
+                        <fieldset data-role ="controlgroup">
+                            <label for="user-id">身分證字號</label>    
+                            <input type="text" name="user-id" id="input-user-id" value="b12444564565" placeholder="身分證字號"/>
+                        </fieldset>
+                    </div>
+                </form>
+                <button id="btn-query">查詢</button> 
+                <div>
+                    <h3 id = "result-title-id"></h3>
+                    <ul data-role="listview" id = "result-listview-id">
+                    </ul>
+                </div>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <h1 >這是尾巴喔</h1>
+            </div>
+        </div>
+    </body>
+</html>
