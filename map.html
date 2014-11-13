@@ -38,14 +38,17 @@
             <div data-role="content">    
                 <h3 id="map-title-id"></h3>
                 <div id="map"></div>
-
+                <div>
+                    <ul data-role="listview" id = "vote-house-listview-id">
+                    </ul>
+                </div>
                  <!-- showVoteHouseInfo -->
                 <div data-role="popup" id="popupInfoDlg" data-dismissible="false" >
                     <div data-role="header">
                         <h1 id="vote_house_id">投票所</h1>
                     </div>
                     <div data-role="content" align="center">
-                        <ul data-role="listview" id = "vote-house-listview-id">
+                        <ul data-role="listview" id = "dlg-vote-house-listview-id">
                         </ul>
                         <br/>
                         <a href="#" data-rel="back" data-role="button">OK</a>

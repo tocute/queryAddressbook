@@ -62,14 +62,16 @@ $(document).on("pageinit","#page-1",function(e)
             var team_num = result[0].gsx$team.$t
             var title = $("#result-title-id");
             title.text(" "+team_num+" 分隊的通訊錄");
-            localStorage["TEAM_NAME"] = team_num;
+            //localStorage["TEAM_NAME"] = team_num;
+            //document.getElementById("btn-map").href = "map.html?TEAM_NAME="+team_num;
+            $("#btn-map").attr("href", "map.html?TEAM_NAME="+team_num);
             $("#btn-map").removeClass("ui-disabled");
             $.getJSON("https://spreadsheets.google.com/feeds/list/"+SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&orderby=column:votehouseid&reverse=false&sq=team="+team_num, parseAddressBook); 
         }
         else
             showAlert("查無此人 請重新輸入身份字號");
-        
     };
+    
     var onBtnQueryClick = function (e)
     {
         var query_id = $("#input-user-id").val();

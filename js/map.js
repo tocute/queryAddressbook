@@ -15,7 +15,7 @@ $(document).on("pageshow","#page-map",function(e)
 
     var showInfoDlg = function (result)
     {
-        var result_listview = $("#vote-house-listview-id");
+        var result_listview = $("#dlg-vote-house-listview-id");
         var item_length = result.length;
         result_listview.empty();
         for (var i = 0; i < item_length; i++) 
@@ -37,7 +37,7 @@ $(document).on("pageshow","#page-map",function(e)
             var anotherInfo = "";
             if(anotherName != undefined && anotherName != "")
             {
-                anotherInfo = "<br>陪伴者資訊: "+anotherName+" / "+anotherTel;
+                anotherInfo = "<br>陪伴者資訊 : "+anotherName+" / "+anotherTel;
             }
             result_listview.append("<li>"+"<h3>"+name+"</h3>"+phone+" / "+email+" / "+state+anotherInfo+ "</li>");
         }
@@ -64,10 +64,25 @@ $(document).on("pageshow","#page-map",function(e)
             var item_length = result.length;
             var map_options = { zoom:17, mapTypeId:google.maps.MapTypeId.ROADMAP};
             var map = new google.maps.Map(document.getElementById("map"),map_options);
-            $("#map").height(window.innerHeight - 190);
+            $("#map").height(window.innerHeight*0.5);
             google.maps.event.trigger(map, 'resize');
             var bounds = null;
-            var image = "images/house.png";
+            var image = "images/img_vote_house.png";
+
+            var result_listview = $("#vote-house-listview-id");
+            result_listview.empty();
+
+            result_listview.on('click', 'li', function(e) 
+            {
+                var vote = $(e.currentTarget).data('vote')
+                var voteHouseId = vote.voteHouseId;
+                var lat = vote.latitude;
+                var lng = vote.longitude;
+                var geolocaion = new google.maps.LatLng(lat,lng);
+                $.getJSON("https://spreadsheets.google.com/feeds/list/"+ADDRESS_BOOK_SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=votehouseid="+voteHouseId, parseVoteHouseInfo);  
+                map.setCenter(geolocaion);
+            });
+
             for (var i = 0; i < item_length; i++) 
             {
                 var entry = result[i];
@@ -75,6 +90,11 @@ $(document).on("pageshow","#page-map",function(e)
                 address = entry.gsx$address.$t;
                 latitude = entry.gsx$latitude.$t;
                 longitude = entry.gsx$longitude.$t;
+                var vote = {voteHouseId:voteHouseId,latitude:latitude,longitude:longitude};
+
+                $("<li><a data-role='button'>"+"<h3>投票所編號 :"+voteHouseId+"</h3>"+address+ "</a></li>")
+                .data('vote', vote)
+                .appendTo(result_listview);
 
                 //updateMap
                 var geolocaion = new google.maps.LatLng(latitude,longitude);
@@ -99,9 +119,9 @@ $(document).on("pageshow","#page-map",function(e)
                 {
                     $.getJSON("https://spreadsheets.google.com/feeds/list/"+ADDRESS_BOOK_SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=votehouseid="+this.title, parseVoteHouseInfo);  
                     map.setCenter(this.getPosition());
-
                 });
             }
+            result_listview.listview("refresh");
         }
         else
             showAlert("查無 "+team_num+" 分隊資料");
@@ -109,7 +129,21 @@ $(document).on("pageshow","#page-map",function(e)
     
     var initPage = function ()
     {
-        team_num = localStorage["TEAM_NAME"];
+        //team_num = localStorage["TEAM_NAME"];
+        var query_string = {};
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) 
+        {
+            var pair = vars[i].split("=");
+            // If first entry with this name
+            if (pair[0] === "TEAM_NAME") 
+            {
+                team_num = decodeURIComponent(pair[1]);
+                break;
+            }
+        }
+
         var title = $("#map-title-id");
         title.text(team_num+" 分隊的投票所分佈");
 
