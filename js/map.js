@@ -62,7 +62,14 @@ $(document).on("pageshow","#page-map",function(e)
         if(result != undefined )
         {
             var item_length = result.length;
-            var map_options = { zoom:17, mapTypeId:google.maps.MapTypeId.ROADMAP};
+            var map_options = { 
+                zoom:17, 
+                mapTypeId:google.maps.MapTypeId.ROADMAP,
+                panControl: false,
+                mapTypeControl: false,
+                streetViewControl: false,
+                overviewMapControl: false};
+
             var map = new google.maps.Map(document.getElementById("map"),map_options);
             $("#map").height(window.innerHeight*0.5);
             google.maps.event.trigger(map, 'resize');
@@ -125,6 +132,8 @@ $(document).on("pageshow","#page-map",function(e)
         }
         else
             showAlert("查無 "+team_num+" 分隊資料");
+
+        $.mobile.loading( 'hide');
     };
     
     var initPage = function ()
@@ -151,6 +160,13 @@ $(document).on("pageshow","#page-map",function(e)
 
         if(team_num != undefined && team_num != "")
         {
+            $.mobile.loading( 'show', {
+            text: '地圖載入中...',
+            textVisible: true,
+            theme: 'z',
+            html: ""
+            });
+
             $.getJSON("https://spreadsheets.google.com/feeds/list/"+VOTE_HOUSE_SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=team="+team_num, parseVoteHouse);
         }
         else

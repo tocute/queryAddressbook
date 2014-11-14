@@ -5,20 +5,19 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
         
-        <!--<link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
+        <link rel="shortcut icon" href="favicon.ico">
         <link rel="stylesheet" href="css/custom.css">
-        
+
+        <!--<<link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
         <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/map.js"></script>
-        <script src="js/jquery.mobile-1.4.4.min.js"></script>
-        <script src="js/parse-1.3.1.min.js"></script>-->
+        <script src="js/jquery.mobile-1.4.4.min.js"></script>-->
         
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+
         <script src="js/main.js"></script>
         <script src="js/map.js"></script>
-        <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
         <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry"></script>
     </head>
 
@@ -30,15 +29,16 @@
 
             <div data-role="content">    
                <div data-role="fieldcontain">
-                   <form>
+                   <form id="form-query">
                         <fieldset>
                             <label for="user-id">驗證身分證字號</label>    
                             <input type="text" name="user-id" id="input-user-id" value="" placeholder="身分證字號"/>
                         </fieldset>
+                        <input type="submit" id="btn-query" data-icon="search" value="查詢"></input> 
                     </form>
                 </div>
-                <button id="btn-query" data-icon="search">查詢</button> 
-                <a data-role="button" href="map.html" id="btn-map" data-icon="info" class="ui-disabled" data-ajax="false">地圖</a> 
+                
+                <a data-role="button" href="map.html" id="btn-map" data-icon="info" class="ui-disabled">地圖</a> 
                 <div>
                     <h3 id = "result-title-id"></h3>
                     <ul data-role="listview" id = "result-listview-id">

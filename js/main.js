@@ -38,6 +38,8 @@ $(document).on("pageinit","#page-1",function(e)
         }
         else
             showAlert("查無 "+team_num+" 分隊資料");
+        
+        $.mobile.loading( 'hide');
     };
 
     var searchTeamByID = function(json)
@@ -69,11 +71,16 @@ $(document).on("pageinit","#page-1",function(e)
             $.getJSON("https://spreadsheets.google.com/feeds/list/"+SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&orderby=column:votehouseid&reverse=false&sq=team="+team_num, parseAddressBook); 
         }
         else
+        {
             showAlert("查無此人 請重新輸入身份字號");
+            $.mobile.loading( 'hide');
+        }   
+
     };
     
-    var onBtnQueryClick = function (e)
+    var onQuerySubmit = function (e)
     {
+        e.preventDefault();
         var query_id = $("#input-user-id").val();
 
         //clean data
@@ -87,11 +94,18 @@ $(document).on("pageinit","#page-1",function(e)
         //search team number by ID
         if(query_id != undefined && query_id != "")
         {
+            $.mobile.loading( 'show', {
+            text: '通訊錄查詢中...',
+            textVisible: true,
+            theme: 'z',
+            html: ""
+            });
             $.getJSON("https://spreadsheets.google.com/feeds/list/"+SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=id="+query_id, searchTeamByID);
         }
         else
             showAlert("請輸入身分證字號");
+        return false;
     }
-
-    $("#btn-query").on("click",onBtnQueryClick);
+    $("#form-query").on("submit", onQuerySubmit);
+    // $("#btn-query").on("click",onBtnQueryClick);
 });
