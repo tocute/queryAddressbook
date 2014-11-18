@@ -1,8 +1,8 @@
 $(document).on("pageshow","#page-map",function(e)
 {
     var team_num = 0;
-    var ADDRESS_BOOK_SHEET_KEY = "1rAjKvg9Y-iTVUkupCs1rVhuCVQiMnHixfARAuUhQ1Us";
-    var VOTE_HOUSE_SHEET_KEY = "1qgXXxMv6krKWwAPXALgOLQtklmE0i7i_HT9s0RT1K4M";
+    var ADDRESS_BOOK_SHEET_KEY = "1QP0Z-VPfeEXnmq_gP3vllQYclksA-GLtlgHxGuIsb-c";
+    var VOTE_HOUSE_SHEET_KEY = "1rNrS17a5bwh7KP0g4yMnBBErGAFNkfNVGKHugReCMas";
     //https://docs.google.com/spreadsheets/d/1qgXXxMv6krKWwAPXALgOLQtklmE0i7i_HT9s0RT1K4M/pubhtml
     $('#popupInfoDlg').css({'width':$(window).width()*0.8});
     $('#popupWarningDlg').css({'width':$(window).width()*0.8});
@@ -24,7 +24,7 @@ $(document).on("pageshow","#page-map",function(e)
             var voteHouseId  = entry.gsx$votehouseid.$t;
             var name  = entry.gsx$name.$t;
             var phone = entry.gsx$phone.$t;
-            var email = entry.gsx$email.$t;
+            //var email = entry.gsx$email.$t;
             var state = entry.gsx$state.$t;
             var anotherName = entry.gsx$anothername.$t;
             var anotherTel = entry.gsx$anothertel.$t;
@@ -39,7 +39,7 @@ $(document).on("pageshow","#page-map",function(e)
             {
                 anotherInfo = "<br>陪伴者資訊 : "+anotherName+" / "+anotherTel;
             }
-            result_listview.append("<li>"+"<h3>"+name+"</h3>"+phone+" / "+email+" / "+state+anotherInfo+ "</li>");
+            result_listview.append("<li>"+"<h3>"+name+"</h3>"+phone+" / "+state+anotherInfo+ "</li>");
         }
         result_listview.listview("refresh");
         $("#popupInfoDlg").popup( "open" );
@@ -93,13 +93,14 @@ $(document).on("pageshow","#page-map",function(e)
             for (var i = 0; i < item_length; i++) 
             {
                 var entry = result[i];
-                voteHouseId = entry.gsx$votehouseid.$t;
-                address = entry.gsx$address.$t;
-                latitude = entry.gsx$latitude.$t;
-                longitude = entry.gsx$longitude.$t;
+                var voteHouseId = entry.gsx$votehouseid.$t;
+                var address = entry.gsx$votehouseaddress.$t;
+                var latitude = entry.gsx$votehouselatitude.$t;
+                var longitude = entry.gsx$votehouselongitude.$t;
+                var location = entry.gsx$votehouselocation.$t;
                 var vote = {voteHouseId:voteHouseId,latitude:latitude,longitude:longitude};
 
-                $("<li><a data-role='button'>"+"<h3>投票所編號 :"+voteHouseId+"</h3>"+address+ "</a></li>")
+                $("<li><a data-role='button'>"+"<h3>投票所編號 :"+voteHouseId+" _ "+location+"</h3>"+address+ "</a></li>")
                 .data('vote', vote)
                 .appendTo(result_listview);
 
@@ -167,7 +168,7 @@ $(document).on("pageshow","#page-map",function(e)
             html: ""
             });
 
-            $.getJSON("https://spreadsheets.google.com/feeds/list/"+VOTE_HOUSE_SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=team="+team_num, parseVoteHouse);
+            $.getJSON("https://spreadsheets.google.com/feeds/list/"+VOTE_HOUSE_SHEET_KEY+"/2/public/values?alt=json-in-script&callback=?&sq=votehouseteam="+team_num, parseVoteHouse);
         }
         else
             showAlert("請輸入身分證字號");

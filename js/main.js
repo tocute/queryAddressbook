@@ -7,7 +7,7 @@ $(document).on("mobileinit",function(e)
 $(document).on("pageinit","#page-1",function(e)
 {
     var team_num = 0;
-    var SHEET_KEY = "1rAjKvg9Y-iTVUkupCs1rVhuCVQiMnHixfARAuUhQ1Us";
+    var SHEET_KEY = "1QP0Z-VPfeEXnmq_gP3vllQYclksA-GLtlgHxGuIsb-c";
 
     var showAlert = function (msg)
     {
@@ -30,9 +30,9 @@ $(document).on("pageinit","#page-1",function(e)
                 voteHouseId  = entry.gsx$votehouseid.$t;
                 name  = entry.gsx$name.$t;
                 phone = entry.gsx$phone.$t;
-                email = entry.gsx$email.$t;
+                //email = entry.gsx$email.$t;
 
-                result_listview.append("<li>"+"<h3>"+name+"</h3>"+phone+" / "+email+"<span class ='ui-li-count'>"+voteHouseId+"</span>"+"</li>");
+                result_listview.append("<li>"+"<h3>"+name+"</h3>"+phone+"<span class ='ui-li-count'>"+voteHouseId+"</span>"+"</li>");
             }
             result_listview.listview("refresh");
         }
@@ -100,12 +100,12 @@ $(document).on("pageinit","#page-1",function(e)
             theme: 'z',
             html: ""
             });
-            $.getJSON("https://spreadsheets.google.com/feeds/list/"+SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=id="+query_id, searchTeamByID);
+            query_id = "\""+query_id+"\"";
+            $.getJSON("https://spreadsheets.google.com/feeds/list/"+SHEET_KEY+"/1/public/values?alt=json-in-script&callback=?&sq=id="+query_id, searchTeamByID);    
         }
         else
             showAlert("請輸入身分證字號");
         return false;
     }
     $("#form-query").on("submit", onQuerySubmit);
-    // $("#btn-query").on("click",onBtnQueryClick);
 });
